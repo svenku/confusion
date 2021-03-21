@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+
 import { Navbar, NavbarBrand } from 'reactstrap';
 import Menu from './components/MenuComponent';
 import './App.css';
@@ -13,6 +13,11 @@ class App extends Component {
     this.state = {
       dishes: DISHES
     };
+
+  }
+
+  onDishSelect(dish) {
+    this.setState({selectedDish: dish})
   }
 
   render(){
