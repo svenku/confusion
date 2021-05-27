@@ -24,9 +24,8 @@ class CommentForm extends Component {
   }
 
   handleSubmit(values) {
-    console.log("Current state is: " + JSON.stringify(values));
-    alert("Current state is: " + JSON.stringify(values));
     this.toggleModal();
+    this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
   }
 
   render() {
@@ -54,14 +53,14 @@ class CommentForm extends Component {
                 </Col>
               </Row>
               <Row className="form-group">
-                <Label htmlFor="name" md={3}>
+                <Label htmlFor="author" md={3}>
                   Your name
                 </Label>
                 <Col md={9}>
                   <Control.text
-                    model=".name"
-                    id="name"
-                    name="name"
+                    model=".author"
+                    id="author"
+                    name="author"
                     placeholder="Your Name"
                     className="form-control"
                     validators={{
@@ -71,7 +70,7 @@ class CommentForm extends Component {
                      />
                    <Errors
                      className="text-danger"
-                     model=".name"
+                     model=".author"
                      show="touched"
                      messages={{
                        minLength: 'Must be longer than 2 characters.',
@@ -102,7 +101,7 @@ class CommentForm extends Component {
 }
 
 
-function RenderComments({comments}){
+function RenderComments({comments, addComment, dishId}){
     if (comments != null) {
       const dishComments = comments.map((comment) => {
         return (
@@ -116,6 +115,7 @@ function RenderComments({comments}){
       return (
         <div>
           {dishComments}
+          <CommentForm dishId={dishId} addComment={addComment} />
         </div>
       );
 
@@ -166,8 +166,10 @@ const DishDetail = (props) => {
             <div className="col-12 col-md-5 m-1">
               <h4>Comments</h4>
               <ul className="list-unstyled">
-                <RenderComments comments={props.comments}/>
-                <CommentForm/>
+                <RenderComments comments={props.comments}
+                  addComment={props.addComment}
+                  dishId={props.dish.id}/>
+
               </ul>
             </div>
           </div>
